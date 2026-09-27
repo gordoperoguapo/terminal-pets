@@ -8,22 +8,37 @@ The pets are Mote and friends from the upcoming Kuni app.
 
 ## Install
 
-1. Download this repo: **Code → Download ZIP**, then unzip it somewhere permanent. You can also clone it:
+### Quick install
+
+Paste this into PowerShell and press Enter:
+
+```powershell
+irm https://raw.githubusercontent.com/gordoperoguapo/terminal-pets/main/web-install.ps1 | iex
+```
+
+It downloads terminal-pets to `%LOCALAPPDATA%\terminal-pets` and adds it to your PowerShell profile. Run it again any time to update. Like any command that runs code from the internet, feel free to read [web-install.ps1](web-install.ps1) first.
+
+### Manual install
+
+1. Get the files, either way:
+   - Click **Code → Download ZIP** and unzip it somewhere you'll keep it, such as Documents. The unzipped folder is called `terminal-pets-main`.
+   - Or clone it: `git clone https://github.com/gordoperoguapo/terminal-pets`
+2. Open that folder in File Explorer, right-click an empty space and choose **Open in Terminal**.
+3. Run the installer:
    ```powershell
-   git clone https://github.com/gordoperoguapo/terminal-pets
-   ```
-2. In PowerShell, go to that folder and run the installer:
-   ```powershell
-   cd terminal-pets
    .\install.ps1
    ```
-   If PowerShell says running scripts is disabled, run this instead:
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File .\install.ps1
-   ```
-3. Open a new PowerShell window.
+4. Open a new PowerShell window.
 
-The installer adds one line to your PowerShell profile that loads `pet.ps1` from this folder, so leave the folder where it is. Windows PowerShell 5.1 and PowerShell 7 keep separate profiles, so run the installer in each one you use.
+Your profile loads the pet from this folder, so leave it where it is.
+
+### Good to know
+
+- Windows PowerShell 5.1 and PowerShell 7 keep separate profiles. Install once in each one you use.
+- If PowerShell says running scripts is disabled, run this once, then try again:
+  ```powershell
+  Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+  ```
 
 ## Use
 
@@ -56,8 +71,10 @@ To keep the commands but skip the banner when PowerShell starts, add `$PetBanner
 
 ## Uninstall
 
+Run `uninstall.ps1` from the terminal-pets folder. If you used the quick install, that's:
+
 ```powershell
-.\uninstall.ps1
+& "$env:LOCALAPPDATA\terminal-pets\uninstall.ps1"
 ```
 
 This removes the terminal-pets line from your profile and leaves everything else alone. Then you can delete the folder.
