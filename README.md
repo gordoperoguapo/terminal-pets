@@ -2,7 +2,7 @@
 
 A tiny pixel-art pet for your PowerShell terminal. It greets you with a bounce and a blink when you open a new window, and it can bob around your screen whenever you want some company.
 
-The pets are Mote and friends from the Kuni app.
+The pets are Mote and friends from the upcoming Kuni app.
 
 ![The eight skins, eyes open and blinking](skins.png)
 
