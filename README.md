@@ -32,7 +32,18 @@ Run either command again any time to update. Like any command that runs code fro
 
 ### Manual install
 
-Click **Code → Download ZIP** and unzip it somewhere you'll keep it (the folder is called `terminal-pets-main`), or `git clone https://github.com/gordoperoguapo/terminal-pets`. Open a terminal in that folder and run `.\install.ps1` in PowerShell or `./install.sh` in bash/zsh. Your shell loads the pet from that folder, so leave it where it is.
+Click **Code → Download ZIP** and unzip it somewhere you'll keep it (the folder is called `terminal-pets-main`), or `git clone https://github.com/gordoperoguapo/terminal-pets`. Open a terminal in that folder, then:
+
+```powershell
+Get-ChildItem | Unblock-File
+.\install.ps1
+```
+
+```sh
+bash install.sh
+```
+
+Windows marks downloaded files as untrusted, and `Unblock-File` clears that so PowerShell will run them. Your shell loads the pet from this folder, so leave it where it is.
 
 ## Use
 
@@ -74,7 +85,7 @@ Run the uninstaller from the terminal-pets folder, then delete the folder:
 ```
 
 ```sh
-~/.terminal-pets/uninstall.sh
+bash ~/.terminal-pets/uninstall.sh
 ```
 
 It removes the terminal-pets line from your profile and leaves everything else alone.

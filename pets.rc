@@ -1,14 +1,14 @@
 pet() {
-    "$TERMINAL_PETS_DIR/pet.sh" "$@"
+    bash "$TERMINAL_PETS_DIR/pet.sh" "$@"
 }
 
 case $- in
     *i*)
         if [ "${PET_BANNER:-1}" != 0 ]; then
             if [ -n "$ZSH_VERSION" ]; then
-                "$TERMINAL_PETS_DIR/pet.sh" banner --shell "zsh $ZSH_VERSION"
+                bash "$TERMINAL_PETS_DIR/pet.sh" banner --shell "zsh $ZSH_VERSION"
             else
-                "$TERMINAL_PETS_DIR/pet.sh" banner --shell "bash ${BASH_VERSION%%(*}"
+                bash "$TERMINAL_PETS_DIR/pet.sh" banner --shell "bash ${BASH_VERSION%%(*}"
             fi
         fi
         ;;
