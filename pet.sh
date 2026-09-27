@@ -170,7 +170,7 @@ show_banner() {
         case $((i - mid)) in
             0) info="${ESC}[1m${shell_info}${ESC}[0m" ;;
             1) info="${ESC}[90m${USER:-$(whoami)} @ ${host%%.*}${ESC}[0m" ;;
-            2) info="${ESC}[90m${PWD/#$HOME/~}${ESC}[0m" ;;
+            2) info="${ESC}[90m${PWD/#$HOME/\~}${ESC}[0m" ;;
             *) info="" ;;
         esac
         printf '  %s    %s\n' "${FRAMES[5 * FRAME_HEIGHT + i]}" "$info"

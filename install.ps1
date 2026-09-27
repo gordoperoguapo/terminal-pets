@@ -24,16 +24,20 @@ if (-not (Test-Path $profilePath)) {
 $encoding = Get-ProfileEncoding $profilePath
 $text = [IO.File]::ReadAllText($profilePath, $encoding)
 
+Write-Host '  Adding to your PowerShell profile...' -NoNewline
 if ($text -match [regex]::Escape($marker)) {
-    Write-Host "terminal-pets is already in your profile ($profilePath)."
+    Write-Host ' already there' -ForegroundColor Green
 } else {
     $line = ". `"$petScript`"   $marker"
     $newText = if ($text.Length -gt 0 -and -not $text.EndsWith("`n")) { $text + "`r`n" + $line + "`r`n" } else { $text + $line + "`r`n" }
     [IO.File]::WriteAllText($profilePath, $newText, $encoding)
-    Write-Host "Added terminal-pets to $profilePath"
+    Write-Host ' done' -ForegroundColor Green
 }
 
 Write-Host ''
 . $petScript
-Write-Host "Open a new PowerShell window any time to see your pet. Try 'pet' or 'Get-PetSkin'."
-Write-Host "Keep this folder where it is; your profile loads the pet from here."
+Write-Host '  All set! Open a new window any time and try: pet, Get-PetSkin, Set-PetSkin Rumble' -ForegroundColor Green
+if ($env:LOCALAPPDATA -and -not $PSScriptRoot.StartsWith($env:LOCALAPPDATA)) {
+    Write-Host "  Your profile loads the pet from $PSScriptRoot, so keep that folder." -ForegroundColor DarkGray
+}
+Write-Host ''

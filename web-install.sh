@@ -5,9 +5,14 @@ set -e
 
 dest="${TERMINAL_PETS_HOME:-$HOME/.terminal-pets}"
 
-echo "Downloading terminal-pets..."
+printf '\n  \033[36mterminal-pets\033[0m\n\n'
+printf '  Downloading...'
 mkdir -p "$dest"
-curl -fsSL https://github.com/gordoperoguapo/terminal-pets/archive/refs/heads/main.tar.gz | tar -xz -C "$dest" --strip-components=1
-echo "Installed to $dest"
+if curl -fsSL https://github.com/gordoperoguapo/terminal-pets/archive/refs/heads/main.tar.gz | tar -xz -C "$dest" --strip-components=1; then
+    printf ' \033[32mdone\033[0m\n'
+else
+    printf ' \033[31mfailed\033[0m\n'
+    exit 1
+fi
 
 bash "$dest/install.sh"
