@@ -1,6 +1,6 @@
 # terminal-pets
 
-A tiny pixel-art pet for your PowerShell terminal. It greets you with a bounce and a blink when you open a new window, and it can bob around your screen whenever you want some company.
+A tiny pixel-art pet for your terminal. It greets you with a bounce and a blink when you open a new window, and it can bob around your screen whenever you want some company. Works in PowerShell on Windows and in bash or zsh on Mac, Linux, Git Bash and WSL.
 
 The pets are Mote and friends from the upcoming Kuni app.
 
@@ -8,7 +8,7 @@ The pets are Mote and friends from the upcoming Kuni app.
 
 ## Install
 
-### Quick install
+### Windows (PowerShell)
 
 Paste this into PowerShell and press Enter:
 
@@ -16,42 +16,36 @@ Paste this into PowerShell and press Enter:
 irm https://raw.githubusercontent.com/gordoperoguapo/terminal-pets/main/web-install.ps1 | iex
 ```
 
-It downloads terminal-pets to `%LOCALAPPDATA%\terminal-pets` and adds it to your PowerShell profile. Run it again any time to update. Like any command that runs code from the internet, feel free to read [web-install.ps1](web-install.ps1) first.
+It installs to `%LOCALAPPDATA%\terminal-pets`. Windows PowerShell 5.1 and PowerShell 7 keep separate profiles, so run it in each one you use. If PowerShell says running scripts is disabled, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, then try again.
+
+### Mac, Linux, Git Bash, WSL (bash or zsh)
+
+Paste this into your terminal and press Enter:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/gordoperoguapo/terminal-pets/main/web-install.sh | bash
+```
+
+It installs to `~/.terminal-pets` and adds itself to `~/.zshrc` and/or `~/.bashrc`.
+
+Run either command again any time to update. Like any command that runs code from the internet, feel free to read [web-install.ps1](web-install.ps1) or [web-install.sh](web-install.sh) first.
 
 ### Manual install
 
-1. Get the files, either way:
-   - Click **Code → Download ZIP** and unzip it somewhere you'll keep it, such as Documents. The unzipped folder is called `terminal-pets-main`.
-   - Or clone it: `git clone https://github.com/gordoperoguapo/terminal-pets`
-2. Open that folder in File Explorer, right-click an empty space and choose **Open in Terminal**.
-3. Run the installer:
-   ```powershell
-   .\install.ps1
-   ```
-4. Open a new PowerShell window.
-
-Your profile loads the pet from this folder, so leave it where it is.
-
-### Good to know
-
-- Windows PowerShell 5.1 and PowerShell 7 keep separate profiles. Install once in each one you use.
-- If PowerShell says running scripts is disabled, run this once, then try again:
-  ```powershell
-  Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-  ```
+Click **Code → Download ZIP** and unzip it somewhere you'll keep it (the folder is called `terminal-pets-main`), or `git clone https://github.com/gordoperoguapo/terminal-pets`. Open a terminal in that folder and run `.\install.ps1` in PowerShell or `./install.sh` in bash/zsh. Your shell loads the pet from that folder, so leave it where it is.
 
 ## Use
 
-| Command | What it does |
-|---|---|
-| `pet` | Your pet bobs around the terminal. Press any key to stop. |
-| `pet -Skin Ember` | Same, with a different skin just this once |
-| `pet -Speed 60` | Faster (milliseconds per frame, default 110) |
-| `Get-PetSkin` | List the skins |
-| `Set-PetSkin Rumble` | Switch skins. Your choice is remembered. |
-| `Show-PetBanner` | Show the welcome banner again |
+| PowerShell | bash / zsh | What it does |
+|---|---|---|
+| `pet` | `pet` | Your pet bobs around the terminal. Press any key to stop. |
+| `pet -Skin Ember` | `pet --skin Ember` | Same, with a different skin just this once |
+| `pet -Speed 60` | `pet --speed 60` | Faster (milliseconds per frame, default 110) |
+| `Get-PetSkin` | `pet skins` | List the skins |
+| `Set-PetSkin Rumble` | `pet skin Rumble` | Switch skins. Your choice is remembered. |
+| `Show-PetBanner` | `pet banner` | Show the welcome banner again |
 
-To keep the commands but skip the banner when PowerShell starts, add `$PetBanner = $false` to your profile above the terminal-pets line.
+To skip the banner when your shell starts, set `$PetBanner = $false` (PowerShell) or `PET_BANNER=0` (bash/zsh) in your profile above the terminal-pets line.
 
 ## Skins
 
@@ -64,20 +58,26 @@ To keep the commands but skip the banner when PowerShell starts, add `$PetBanner
 | Ember | a cozy flame |
 | Puff | a sleepy cloud |
 
+All skins live in [skins.txt](skins.txt), shared by both versions.
+
 ## Requirements
 
-- Windows PowerShell 5.1 or PowerShell 7
-- A terminal with true-color support, such as Windows Terminal or the VS Code terminal
+- Windows PowerShell 5.1 or PowerShell 7, or bash 3.2+ / zsh
+- A terminal with true-color support, such as Windows Terminal, VS Code, iTerm2, WezTerm, Kitty or Ghostty
 
 ## Uninstall
 
-Run `uninstall.ps1` from the terminal-pets folder. If you used the quick install, that's:
+Run the uninstaller from the terminal-pets folder, then delete the folder:
 
 ```powershell
 & "$env:LOCALAPPDATA\terminal-pets\uninstall.ps1"
 ```
 
-This removes the terminal-pets line from your profile and leaves everything else alone. Then you can delete the folder.
+```sh
+~/.terminal-pets/uninstall.sh
+```
+
+It removes the terminal-pets line from your profile and leaves everything else alone.
 
 ## License
 

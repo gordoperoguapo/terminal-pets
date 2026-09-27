@@ -1,4 +1,4 @@
-# terminal-pets: Mote and friends from the Kuni app
+# terminal-pets: Mote and friends from the upcoming Kuni app
 # https://github.com/gordoperoguapo/terminal-pets
 # Code: MIT license. Character designs: all rights reserved (see LICENSE).
 
@@ -7,103 +7,40 @@ $script:PetUpper = [string][char]0x2580
 $script:PetLower = [string][char]0x2584
 $script:PetSkinFile = Join-Path $PSScriptRoot 'pet-skin.txt'
 
-$moteBody = @(
-    '..oooooo..',
-    '.oHXXXXXo.',
-    'oHXXXXXXXo',
-    'oXXXXXXXXo',
-    'oXXXXXXXXo',
-    'oXXXXXXXXo',
-    'oSXXXXXXSo',
-    '.oSSSSSSo.',
-    '.oo.oo.oo.'
-)
-
-$script:PetSkins = [ordered]@{
-    Mote = @{
-        Blurb = 'the original'; Body = $moteBody; FaceTop = 3; Eyes = 'mote'; Mouth = 'smile'; Blush = $true
-        Colors = @{ o = 'cfb07a'; X = 'fdebc2'; H = 'fff9ea'; S = 'e2c48c'; E = '2a2340'; W = 'ffffff'; P = 'ffb0be' }
+function script:Read-PetSkins([string]$Path) {
+    $skins = [ordered]@{}
+    $skin = $null
+    $inBody = $false
+    foreach ($line in Get-Content $Path) {
+        $line = $line.Trim()
+        if ($inBody) {
+            if ($line -eq 'end') { $inBody = $false } else { $skin.Body += $line }
+            continue
+        }
+        if (-not $line -or $line.StartsWith('#')) { continue }
+        $key, $rest = $line -split '\s+', 2
+        switch ($key) {
+            'skin'   { $skin = @{ Body = @(); Colors = @{} }; $skins[$rest] = $skin }
+            'about'  { $skin.Blurb = $rest }
+            'face'   {
+                $top, $eyes, $mouth, $blush = $rest -split '\s+'
+                $skin.FaceTop = [int]$top; $skin.Eyes = $eyes; $skin.Mouth = $mouth; $skin.Blush = $blush -eq 'blush'
+            }
+            'colors' { foreach ($pair in $rest -split '\s+') { $k, $v = $pair -split '='; $skin.Colors[$k] = $v } }
+            'body'   { if ($rest -match '^like\s+(\S+)$') { $skin.Body = $skins[$Matches[1]].Body } else { $inBody = $true } }
+        }
     }
-    Mint = @{
-        Blurb = 'a minty Mote'; Body = $moteBody; FaceTop = 3; Eyes = 'mote'; Mouth = 'smile'; Blush = $true
-        Colors = @{ o = '4fa682'; X = 'b3f2d6'; H = 'e6fff3'; S = '62c79c'; E = '2a2340'; W = 'ffffff'; P = 'f0a8b4' }
-    }
-    Pink = @{
-        Blurb = 'a pink Mote'; Body = $moteBody; FaceTop = 3; Eyes = 'mote'; Mouth = 'smile'; Blush = $true
-        Colors = @{ o = 'cf7590'; X = 'ffc3d2'; H = 'ffe8ef'; S = 'e98fa6'; E = '2a2340'; W = 'ffffff'; P = 'f27d9b' }
-    }
-    Lavender = @{
-        Blurb = 'a lavender Mote'; Body = $moteBody; FaceTop = 3; Eyes = 'mote'; Mouth = 'smile'; Blush = $true
-        Colors = @{ o = '8a6fbd'; X = 'd4c0fa'; H = 'f2ebff'; S = 'a086de'; E = '2a2340'; W = 'ffffff'; P = 'f2a6c8' }
-    }
-    Rumble = @{
-        Blurb = 'a tough little kaiju'; FaceTop = 5; Eyes = 'rumble'; Mouth = 'fangs'; Blush = $false
-        Body = @(
-            '.N..TT..N.',
-            '..NooooN..',
-            '.oHXXXXXo.',
-            'oHXXXXXXXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oSXXBBXXSo',
-            '.oSBBBBSo.',
-            '.CoCooCoC.'
-        )
-        Colors = @{ o = '1c2340'; X = '58699a'; H = '7d90b8'; S = '404f7a'; N = 'd8cfbd'; T = '3fbfb0'; B = 'b9c6de'
-                    C = 'e9e2d2'; W = 'ffffff'; G = 'ffc23a'; R = 'e57d12'; E = '141a30' }
-    }
-    Drizzle = @{
-        Blurb = 'a little rain cloud'; FaceTop = 4; Eyes = 'star'; Mouth = 'smile'; Blush = $true
-        Body = @(
-            '...VVVV...',
-            '..VUUUUV..',
-            '.oVUUUUVo.',
-            'oHXXDXXDXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oSXXXXXXSo',
-            '.oSDSSDSo.',
-            '.oo.oo.oo.'
-        )
-        Colors = @{ o = '5f6fcf'; X = 'b9c3f6'; H = 'e3e8ff'; S = '8a96dd'; D = '7a86d8'; U = 'f4f6ff'; V = '8f98d8'
-                    I = '4b62d6'; J = '1d2a7a'; E = '2a2340'; P = 'e6a8c6' }
-    }
-    Ember = @{
-        Blurb = 'a cozy flame'; FaceTop = 3; Eyes = 'star'; Mouth = 'smile'; Blush = $true
-        Body = @(
-            '..oooooo.F',
-            'FoHXXXXXo.',
-            'oHXXXXXXXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oSXXXXXXSo',
-            '.oSSSSSSoF',
-            'Foo.oo.oo.'
-        )
-        Colors = @{ o = 'c9621c'; X = 'ffae52'; H = 'ffd49a'; S = 'f07a22'; F = 'ffb347'
-                    I = '3b3354'; J = '16122a'; E = '2a2340'; P = 'ff8248' }
-    }
-    Puff = @{
-        Blurb = 'a sleepy cloud'; FaceTop = 3; Eyes = 'sleepy'; Mouth = 'smile'; Blush = $true
-        Body = @(
-            '..oo..oo..',
-            '.oHHooXXo.',
-            'oHXXXXXXXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oXXXXXXXXo',
-            'oSXXXXXXSo',
-            'oSSSSSSSSo',
-            '.oo.oo.oo.'
-        )
-        Colors = @{ o = 'b8abe6'; X = 'f4f0ff'; H = 'ffffff'; S = 'cabff0'; E = '4a3f6e'; P = 'f9bbcc' }
-    }
+    $skins
 }
-Remove-Variable moteBody
+
+$script:PetSkins = Read-PetSkins (Join-Path $PSScriptRoot 'skins.txt')
+
+function script:Get-PetSkinNames { $script:PetSkins.Keys }
+
+function script:Test-PetSkinName([string]$Name) {
+    if ($script:PetSkins.Contains($Name)) { return $true }
+    throw "Unknown skin '$Name'. Choose from: $(@(Get-PetSkinNames) -join ', ')"
+}
 
 function script:New-PetSprite([string]$Skin = 'Mote', [int]$Look = 0, [switch]$Blink) {
     $s = $script:PetSkins[$Skin]
@@ -220,7 +157,8 @@ function Set-PetSkin {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
-        [ValidateSet('Mote', 'Mint', 'Pink', 'Lavender', 'Rumble', 'Drizzle', 'Ember', 'Puff')]
+        [ArgumentCompleter({ param($cmd, $param, $word) @(Get-PetSkinNames) -like "$word*" })]
+        [ValidateScript({ Test-PetSkinName $_ })]
         [string]$Skin
     )
     $Skin = $script:PetSkins.Keys | Where-Object { $_ -eq $Skin }
@@ -231,7 +169,8 @@ function Set-PetSkin {
 function Show-PetBanner {
     [CmdletBinding()]
     param(
-        [ValidateSet('Mote', 'Mint', 'Pink', 'Lavender', 'Rumble', 'Drizzle', 'Ember', 'Puff')]
+        [ArgumentCompleter({ param($cmd, $param, $word) @(Get-PetSkinNames) -like "$word*" })]
+        [ValidateScript({ Test-PetSkinName $_ })]
         [string]$Skin = (Get-CurrentPetSkin),
         [switch]$NoAnimation
     )
@@ -268,7 +207,8 @@ function Show-PetBanner {
 function Start-Pet {
     [CmdletBinding()]
     param(
-        [ValidateSet('Mote', 'Mint', 'Pink', 'Lavender', 'Rumble', 'Drizzle', 'Ember', 'Puff')]
+        [ArgumentCompleter({ param($cmd, $param, $word) @(Get-PetSkinNames) -like "$word*" })]
+        [ValidateScript({ Test-PetSkinName $_ })]
         [string]$Skin = (Get-CurrentPetSkin),
         [int]$Speed = 110
     )

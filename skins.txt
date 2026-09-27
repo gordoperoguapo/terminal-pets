@@ -1,0 +1,110 @@
+# terminal-pets skins, shared by pet.ps1 and pet.sh
+#
+# skin    <name>
+# about   <one-line description>
+# face    <row where the eyes start> <eyes: mote|star|rumble|sleepy> <mouth: smile|fangs> <blush|noblush>
+# colors  <pixel letter>=<hex color> ...
+# body    followed by pixel rows and "end", or "body like <skin>" to reuse another skin's shape
+#
+# In a body, "." is transparent and every other letter is a color from that skin's colors line.
+
+skin Mote
+about the original
+face 3 mote smile blush
+colors o=cfb07a X=fdebc2 H=fff9ea S=e2c48c E=2a2340 W=ffffff P=ffb0be
+body
+..oooooo..
+.oHXXXXXo.
+oHXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oSXXXXXXSo
+.oSSSSSSo.
+.oo.oo.oo.
+end
+
+skin Mint
+about a minty Mote
+face 3 mote smile blush
+colors o=4fa682 X=b3f2d6 H=e6fff3 S=62c79c E=2a2340 W=ffffff P=f0a8b4
+body like Mote
+
+skin Pink
+about a pink Mote
+face 3 mote smile blush
+colors o=cf7590 X=ffc3d2 H=ffe8ef S=e98fa6 E=2a2340 W=ffffff P=f27d9b
+body like Mote
+
+skin Lavender
+about a lavender Mote
+face 3 mote smile blush
+colors o=8a6fbd X=d4c0fa H=f2ebff S=a086de E=2a2340 W=ffffff P=f2a6c8
+body like Mote
+
+skin Rumble
+about a tough little kaiju
+face 5 rumble fangs noblush
+colors o=1c2340 X=58699a H=7d90b8 S=404f7a N=d8cfbd T=3fbfb0 B=b9c6de C=e9e2d2 W=ffffff G=ffc23a R=e57d12 E=141a30
+body
+.N..TT..N.
+..NooooN..
+.oHXXXXXo.
+oHXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oSXXBBXXSo
+.oSBBBBSo.
+.CoCooCoC.
+end
+
+skin Drizzle
+about a little rain cloud
+face 4 star smile blush
+colors o=5f6fcf X=b9c3f6 H=e3e8ff S=8a96dd D=7a86d8 U=f4f6ff V=8f98d8 I=4b62d6 J=1d2a7a E=2a2340 P=e6a8c6
+body
+...VVVV...
+..VUUUUV..
+.oVUUUUVo.
+oHXXDXXDXo
+oXXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oSXXXXXXSo
+.oSDSSDSo.
+.oo.oo.oo.
+end
+
+skin Ember
+about a cozy flame
+face 3 star smile blush
+colors o=c9621c X=ffae52 H=ffd49a S=f07a22 F=ffb347 I=3b3354 J=16122a E=2a2340 P=ff8248
+body
+..oooooo.F
+FoHXXXXXo.
+oHXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oSXXXXXXSo
+.oSSSSSSoF
+Foo.oo.oo.
+end
+
+skin Puff
+about a sleepy cloud
+face 3 sleepy smile blush
+colors o=b8abe6 X=f4f0ff H=ffffff S=cabff0 E=4a3f6e P=f9bbcc
+body
+..oo..oo..
+.oHHooXXo.
+oHXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oXXXXXXXXo
+oSXXXXXXSo
+oSSSSSSSSo
+.oo.oo.oo.
+end
